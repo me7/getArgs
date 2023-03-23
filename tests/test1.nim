@@ -12,9 +12,10 @@ test "ffmpeg sample":
   let params = "ffmpeg -i input.wav -vn -ar 44100 -ac 2 -b:a 192k output.mp3".split(" ")
   let args = getArgs params
   check:
-    args == @[("ffmpeg", ""), ("i", "input.wav"), ("vn", ""), ("ar", "44100"), (
-        "ac", "2"), ("b:a", "192k"), ("output.mp3", "")]
-    args[1] == ("i", "input.wav")
-    args["ar"] == "44100"
-    args.getOrDefault("aa", "b") == "b"
+    args == @[("ffmpeg", ""), ("-i", "input.wav"), ("-vn", ""), ("-ar",
+        "44100"), ("-ac", "2"), ("-b:a", "192k"), ("output.mp3", "")]
+    args[1] == ("-i", "input.wav")
+    args["-ar"] == "44100"
+    args.getOrDefault("-aa", "b") == "b"
+    args[1].key == "-i"
 

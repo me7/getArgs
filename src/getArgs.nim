@@ -9,13 +9,15 @@ export os, strutils, times, parseutils, hashes, tables, sets, sequtils,
 type
   Args = seq[(string, string)]
 
-proc getArgs*(params: seq[string]): Args =
+proc getArgs*(args: seq[string] = @[]): Args =
   type State = enum
     stKey
     stVal
   var
     i = 0
     state = stVal
+
+  let params = if args != @[]: args else: commandLineParams()
   while i <= params.high:
     case state
     of stVal:
@@ -26,13 +28,13 @@ proc getArgs*(params: seq[string]): Args =
         state = stKey
     of stKey:
       if i == params.high:
-        result.add (params[i][1..^1], "")
+        result.add (params[i], "")
         inc i
       elif params[i+1][0] == '-':
-        result.add (params[i][1..^1], "")
+        result.add (params[i], "")
         inc i
       else:
-        result.add (params[i][1..^1], params[i+1])
+        result.add (params[i], params[i+1])
         inc i, 2
         state = stVal
 
@@ -50,3 +52,5 @@ proc contains*(a: Args, key: string): bool =
 
 proc getOrDefault*(a: Args, key, default: string): string =
   result = if key in a: a[key] else: default
+
+proc key*(kv: (string, string)): string = kv[0]

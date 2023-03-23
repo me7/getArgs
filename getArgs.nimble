@@ -2,7 +2,7 @@
 
 version       = "1"
 author        = "me7"
-description   = "command line arguments parser (like ffmpeg cli)"
+description   = "command line arguments parser"
 license       = "MIT"
 srcDir        = "src"
 
